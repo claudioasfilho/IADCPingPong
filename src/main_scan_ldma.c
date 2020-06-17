@@ -27,6 +27,8 @@
 #include "em_gpio.h"
 #include "bsp.h"
 
+#include "single_adc.h"
+
 /*******************************************************************************
  *******************************   DEFINES   ***********************************
  ******************************************************************************/
@@ -34,9 +36,11 @@
 // How many samples to capture
 #define NUM_SAMPLES               1024
 
+
 // Set CLK_ADC to 10MHz (this corresponds to a sample rate of 833ksps)
 #define CLK_SRC_ADC_FREQ          10000000 // CLK_SRC_ADC
 #define CLK_ADC_FREQ	          10000000 // CLK_ADC
+
 
 // When changing GPIO port/pins above, make sure to change xBUSALLOC macro's
 // accordingly.
@@ -107,10 +111,11 @@ void initIADC (void)
                                                                     init.srcClkPrescale);
 
   // Scan initialization
-  initScan.dataValidLevel = _IADC_SCANFIFOCFG_DVL_VALID2;
+  initScan.dataValidLevel = _IADC_SCANFIFOCFG_DVL_VALID2       ;
 
   // Set scan to run continuously
   initScan.triggerAction = iadcTriggerActionContinuous;
+
 
   // Set to run in EM2
   initScan.fifoDmaWakeup = true;
@@ -158,11 +163,20 @@ void initLDMA(uint32_t *buffer, uint32_t size)
 
   // Configure LDMA for transfer from IADC to memory
   // LDMA will loop continuously
-  LDMA_TransferCfg_t transferCfg =
-    LDMA_TRANSFER_CFG_PERIPHERAL(ldmaPeripheralSignal_IADC0_IADC_SCAN);
+
+#ifdef SCAN
+  LDMA_TransferCfg_t transferCfg = LDMA_TRANSFER_CFG_PERIPHERAL(ldmaPeripheralSignal_IADC0_IADC_SCAN);
 
   // Set up descriptors for dual buffer transfer
   LDMA_Descriptor_t xfer = LDMA_DESCRIPTOR_LINKREL_P2M_BYTE(&IADC0->SCANFIFODATA, buffer, size, 1);
+#else
+  LDMA_TransferCfg_t transferCfg = LDMA_TRANSFER_CFG_PERIPHERAL(ldmaPeripheralSignal_IADC0_IADC_SINGLE);
+
+    // Set up descriptors for dual buffer transfer
+    LDMA_Descriptor_t xfer = LDMA_DESCRIPTOR_LINKREL_P2M_BYTE(&IADC0->SINGLEFIFODATA, buffer, size, 1);
+
+
+#endif
 
   // Store descriptors globally
   // Note that this is required for the LDMA to function properly
@@ -189,11 +203,15 @@ void initLDMA(uint32_t *buffer, uint32_t size)
  *****************************************************************************/
 void LDMA_IRQHandler(void)
 {
-  // Clear interrupt flags
-  LDMA_IntClear(LDMA_IF_DONE0);
+	 if (singleFlag == 1)
+	  {
+		  // Clear interrupt flags
+		  LDMA_IntClear(LDMA_IF_DONE0);
 
-  // Stop the IADC
-  IADC_command(IADC0, iadcCmdStopScan);
+		  // Stop the IADC
+		  IADC_command(IADC0, iadcCmdStopScan);
+	  }
+else LDMAPingPongHandler();
 
   // Set GPIO to notify that transfer is complete
   GPIO_PinOutSet(BSP_GPIO_LED0_PORT, BSP_GPIO_LED0_PIN);
@@ -210,16 +228,24 @@ int main(void)
   initGPIO();
 
   // Initialize the IADC
-  initIADC();
+  //initIADC();
+  initSingleIADC();
 
+  singleFlag = 0;
+
+  if (singleFlag == 1)
+  {
+	  initLDMA(&scanBuffer, NUM_SAMPLES);
+  }
   // Initialize LDMA
-  initLDMA(scanBuffer, NUM_SAMPLES);
+  else initLdmaPingPong();
 
   // Start scan
-  IADC_command(IADC0, iadcCmdStartScan);
+
+  IADC_command(IADC0, iadcCmdStartSingle);
 
   // Sleep CPU until LDMA transfer completes
-  EMU_EnterEM2(true);
+ // EMU_EnterEM2(true);
 
   // once transfer completes, wake up, handle IRQ, and sit in infinite loop
   while(1);
