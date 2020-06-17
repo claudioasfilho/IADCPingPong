@@ -25,26 +25,9 @@
 #include "em_ldma.h"
 #include "em_gpio.h"
 #include "bsp.h"
-#include "single_adc.h"
 
- void initHFXO(void)
-{
+#include "usage_iadc_ldma.h"
 
-  // Initialize HFXO
-  // Use BSP_CLK_HFXO_INIT as last result (4th)
-  CMU_HFXOInit_TypeDef hfxoInit = BSP_CLK_HFXO_INIT;
-
-  CMU_HFXOInit(&hfxoInit);
-
-  // Set system HFXO frequency
-  SystemHFXOClockSet(BSP_CLK_HFXO_FREQ);
-
-  // Set system HFXO frequency
-  SystemHFXOClockSet(BSP_CLK_HFXO_FREQ);
-
-  CMU_HFRCODPLLBandSet(cmuHFRCODPLLFreq_80M0Hz);
-  CMU_ClockSelectSet(cmuClock_SYSCLK, cmuSelect_HFRCODPLL);
-}
 
 /**************************************************************************//**
  * @brief  IADC Initializer
@@ -119,29 +102,6 @@ void initSingleIADC (void)
 }
 
 
-/**************************************************************************//**
- * @brief  ADC Handler
- *****************************************************************************/
-void IADC_IRQHandler(void)
-{
-	static uint16_t i=0;
-
-
-  GPIO_PinOutToggle(BSP_GPIO_LED0_PORT, BSP_GPIO_LED0_PIN);
-
-  // Read data from the FIFO
-  sample = IADC_pullSingleFifoResult(IADC0);
-
-  pingBuffer[i++]=sample.data;
-
-  if(i==1024) i=0;
-
-  // For single-ended the result range is 0 to +Vref, i.e., 12 bits for the
-  // conversion value.
-  singleResult = sample.data * 3.3 / 0xFFF;
-
-  IADC_clearInt(IADC0, IADC_IF_SINGLEFIFODVL);
-}
 
 /***************************************************************************//**
  * @brief

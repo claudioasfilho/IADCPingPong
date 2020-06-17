@@ -27,7 +27,7 @@
 #include "em_gpio.h"
 #include "bsp.h"
 
-#include "single_adc.h"
+#include "usage_iadc_ldma.h"
 
 /**************************************************************************//**
  * @brief  GPIO Initializer
@@ -46,18 +46,10 @@ void initGPIO (void)
  *****************************************************************************/
 void LDMA_IRQHandler(void)
 {
-	 if (singleFlag == 1)
-	  {
-		  // Clear interrupt flags
-		  LDMA_IntClear(LDMA_IF_DONE0);
-
-		  // Stop the IADC
-		  IADC_command(IADC0, iadcCmdStopScan);
-	  }
-else LDMAPingPongHandler();
+	LDMAPingPongHandler();
 
   // Set GPIO to notify that transfer is complete
-  GPIO_PinOutSet(BSP_GPIO_LED0_PORT, BSP_GPIO_LED0_PIN);
+  GPIO_PinOutToggle(BSP_GPIO_LED0_PORT, BSP_GPIO_LED0_PIN);
 }
 
 /**************************************************************************//**

@@ -31,7 +31,7 @@ all: EFR32MG21_iadc_ping_pong_ldma.axf
 EFR32MG21_iadc_ping_pong_ldma.axf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GNU ARM C Linker'
-	arm-none-eabi-gcc -g3 -gdwarf-2 -mcpu=cortex-m33 -mthumb -T "EFR32MG21_iadc_ping_pong_ldma.ld" -Xlinker --gc-sections -Xlinker -Map="EFR32MG21_iadc_ping_pong_ldma.map" -mfpu=fpv5-sp-d16 -mfloat-abi=softfp --specs=nano.specs -o EFR32MG21_iadc_ping_pong_ldma.axf "./CMSIS/EFR32MG21/startup_efr32mg21.o" "./CMSIS/EFR32MG21/system_efr32mg21.o" "./emlib/em_cmu.o" "./emlib/em_core.o" "./emlib/em_emu.o" "./emlib/em_gpio.o" "./emlib/em_iadc.o" "./emlib/em_ldma.o" "./emlib/em_system.o" "./src/main.o" "./src/single_iadc.o" -Wl,--start-group -lgcc -lc -lnosys -Wl,--end-group
+	arm-none-eabi-gcc -g3 -gdwarf-2 -mcpu=cortex-m33 -mthumb -T "EFR32MG21_iadc_ping_pong_ldma.ld" -Xlinker --gc-sections -Xlinker -Map="EFR32MG21_iadc_ping_pong_ldma.map" -mfpu=fpv5-sp-d16 -mfloat-abi=softfp --specs=nano.specs -o EFR32MG21_iadc_ping_pong_ldma.axf "./CMSIS/EFR32MG21/startup_efr32mg21.o" "./CMSIS/EFR32MG21/system_efr32mg21.o" "./emlib/em_cmu.o" "./emlib/em_core.o" "./emlib/em_emu.o" "./emlib/em_gpio.o" "./emlib/em_iadc.o" "./emlib/em_ldma.o" "./emlib/em_system.o" "./src/main.o" "./src/usage_iadc_ldma.o" -Wl,--start-group -lgcc -lc -lnosys -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

@@ -54,11 +54,6 @@
 			<locationURI>STUDIO_SDK_LOC/platform/emlib/src/em_system.c</locationURI>
 		</link>
 		<link>
-			<name>src/readme.txt</name>
-			<type>1</type>
-			<location>/Users/clfilho/SimplicityStudio/peripheral_examples/series2/iadc/iadc_scan_ldma/readme.txt</location>
-		</link>
-		<link>
 			<name>CMSIS/EFR32MG21/startup_gcc_efr32mg21.s</name>
 			<type>1</type>
 			<locationURI>STUDIO_SDK_LOC/platform/Device/SiliconLabs/EFR32MG21/Source/GCC/startup_efr32mg21.S</locationURI>
