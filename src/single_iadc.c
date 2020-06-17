@@ -88,7 +88,7 @@ static volatile double singleResult;
 
 
 // How many samples to capture
-#define NUM_SAMPLES               1024
+#define NUM_SAMPLES               100
 
 /**************/
 // DMA channel used for the example
@@ -243,9 +243,9 @@ void initLdmaPingPong(void)
 
 
   // LINK descriptor macros for ping-pong transfer
-  descLink[0] = (LDMA_Descriptor_t)LDMA_DESCRIPTOR_LINKREL_M2M_HALF(&IADC0->SINGLEFIFODATA, &pingBuffer, NUM_SAMPLES, 1);
+  descLink[0] = (LDMA_Descriptor_t)LDMA_DESCRIPTOR_LINKREL_P2M_BYTE(&IADC0->SINGLEFIFODATA, &pingBuffer, NUM_SAMPLES, 1);
 
-  descLink[1] = (LDMA_Descriptor_t)LDMA_DESCRIPTOR_LINKREL_M2M_HALF(&IADC0->SINGLEFIFODATA, &pongBuffer,NUM_SAMPLES, -1);
+  descLink[1] = (LDMA_Descriptor_t)LDMA_DESCRIPTOR_LINKREL_P2M_BYTE(&IADC0->SINGLEFIFODATA, &pongBuffer,NUM_SAMPLES, -1);
 
   // Enable interrupts
   descLink[0].xfer.doneIfs = true;
