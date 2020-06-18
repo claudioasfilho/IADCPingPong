@@ -46,10 +46,12 @@ void initGPIO (void)
  *****************************************************************************/
 void LDMA_IRQHandler(void)
 {
+	// Set GPIO to notify that transfer is complete
+	GPIO_PinOutToggle(BSP_GPIO_LED0_PORT, BSP_GPIO_LED0_PIN);
+
 	LDMAPingPongHandler();
 
-  // Set GPIO to notify that transfer is complete
-  GPIO_PinOutToggle(BSP_GPIO_LED0_PORT, BSP_GPIO_LED0_PIN);
+
 }
 
 /**************************************************************************//**
@@ -58,6 +60,10 @@ void LDMA_IRQHandler(void)
 int main(void)
 {
   CHIP_Init();
+
+  //It sets the System clock at 38Mhz, using the Crystal.
+  CMU_ClockSelectSet(cmuClock_SYSCLK, cmuSelect_HFXO);
+  CMU_ClockSelectSet(cmuClock_EM01GRPACLK, cmuSelect_HFXO);
 
   // Initialize GPIO
   initGPIO();

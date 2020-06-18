@@ -94,6 +94,8 @@ Discarded input sections
  .bss           0x0000000000000000        0x0 ./CMSIS/EFR32MG21/system_efr32mg21.o
  .text.SystemHFXOClockSet
                 0x0000000000000000       0x20 ./CMSIS/EFR32MG21/system_efr32mg21.o
+ .text.SystemHFRCODPLLClockSet
+                0x0000000000000000        0xc ./CMSIS/EFR32MG21/system_efr32mg21.o
  .text.SystemLFXOClockSet
                 0x0000000000000000        0xc ./CMSIS/EFR32MG21/system_efr32mg21.o
  .group         0x0000000000000000        0xc ./emlib/em_cmu.o
@@ -169,6 +171,8 @@ Discarded input sections
  .text          0x0000000000000000        0x0 ./emlib/em_cmu.o
  .data          0x0000000000000000        0x0 ./emlib/em_cmu.o
  .bss           0x0000000000000000        0x0 ./emlib/em_cmu.o
+ .text.HFRCODPLLDevinfoGet
+                0x0000000000000000       0xf4 ./emlib/em_cmu.o
  .text.CMU_ClockDivSet.part.1
                 0x0000000000000000       0x38 ./emlib/em_cmu.o
  .text.CMU_HFRCOEM23BandGet
@@ -187,10 +191,14 @@ Discarded input sections
                 0x0000000000000000       0x48 ./emlib/em_cmu.o
  .text.CMU_ClockDivSet
                 0x0000000000000000       0x4c ./emlib/em_cmu.o
+ .text.CMU_ClockSelectGet
+                0x0000000000000000      0x10c ./emlib/em_cmu.o
  .text.CMU_DPLLLock
                 0x0000000000000000      0x174 ./emlib/em_cmu.o
  .text.CMU_HFRCODPLLBandGet
                 0x0000000000000000        0x4 ./emlib/em_cmu.o
+ .text.CMU_HFRCODPLLBandSet
+                0x0000000000000000       0x98 ./emlib/em_cmu.o
  .text.CMU_HFXOInit
                 0x0000000000000000      0x128 ./emlib/em_cmu.o
  .text.CMU_LFXOInit
@@ -1596,7 +1604,7 @@ END GROUP
 LOAD /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v8-m.main/fpv5-sp/softfp/crtend.o
 LOAD /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v8-m.main/fpv5-sp/softfp/crtn.o
 
-.text           0x0000000000000000     0x16c4
+.text           0x0000000000000000     0x1418
  *(.vectors)
  .vectors       0x0000000000000000      0x134 ./CMSIS/EFR32MG21/startup_efr32mg21.o
                 0x0000000000000000                __Vectors
@@ -1699,129 +1707,118 @@ LOAD /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/g
  .text.SystemHFRCODPLLClockGet
                 0x00000000000002cc        0xc ./CMSIS/EFR32MG21/system_efr32mg21.o
                 0x00000000000002cc                SystemHFRCODPLLClockGet
- .text.SystemHFRCODPLLClockSet
-                0x00000000000002d8        0xc ./CMSIS/EFR32MG21/system_efr32mg21.o
-                0x00000000000002d8                SystemHFRCODPLLClockSet
  .text.SystemCLKIN0Get
-                0x00000000000002e4        0x4 ./CMSIS/EFR32MG21/system_efr32mg21.o
-                0x00000000000002e4                SystemCLKIN0Get
+                0x00000000000002d8        0x4 ./CMSIS/EFR32MG21/system_efr32mg21.o
+                0x00000000000002d8                SystemCLKIN0Get
  .text.SystemFSRCOClockGet
-                0x00000000000002e8        0x8 ./CMSIS/EFR32MG21/system_efr32mg21.o
-                0x00000000000002e8                SystemFSRCOClockGet
+                0x00000000000002dc        0x8 ./CMSIS/EFR32MG21/system_efr32mg21.o
+                0x00000000000002dc                SystemFSRCOClockGet
  .text.SystemHFRCOEM23ClockGet
-                0x00000000000002f0       0x88 ./CMSIS/EFR32MG21/system_efr32mg21.o
-                0x00000000000002f0                SystemHFRCOEM23ClockGet
+                0x00000000000002e4       0x88 ./CMSIS/EFR32MG21/system_efr32mg21.o
+                0x00000000000002e4                SystemHFRCOEM23ClockGet
  .text.SystemLFRCOClockGet
-                0x0000000000000378        0x8 ./CMSIS/EFR32MG21/system_efr32mg21.o
-                0x0000000000000378                SystemLFRCOClockGet
+                0x000000000000036c        0x8 ./CMSIS/EFR32MG21/system_efr32mg21.o
+                0x000000000000036c                SystemLFRCOClockGet
  .text.SystemULFRCOClockGet
-                0x0000000000000380        0x8 ./CMSIS/EFR32MG21/system_efr32mg21.o
-                0x0000000000000380                SystemULFRCOClockGet
+                0x0000000000000374        0x8 ./CMSIS/EFR32MG21/system_efr32mg21.o
+                0x0000000000000374                SystemULFRCOClockGet
  .text.SystemLFXOClockGet
-                0x0000000000000388        0xc ./CMSIS/EFR32MG21/system_efr32mg21.o
-                0x0000000000000388                SystemLFXOClockGet
- .text.HFRCODPLLDevinfoGet
-                0x0000000000000394       0xf4 ./emlib/em_cmu.o
+                0x000000000000037c        0xc ./CMSIS/EFR32MG21/system_efr32mg21.o
+                0x000000000000037c                SystemLFXOClockGet
  .text.em01GrpaClkGet
-                0x0000000000000488       0x50 ./emlib/em_cmu.o
+                0x0000000000000388       0x50 ./emlib/em_cmu.o
  .text.iadcClkGet
-                0x00000000000004d8       0x54 ./emlib/em_cmu.o
+                0x00000000000003d8       0x54 ./emlib/em_cmu.o
  .text.em23GrpaClkGet
-                0x000000000000052c       0x48 ./emlib/em_cmu.o
+                0x000000000000042c       0x48 ./emlib/em_cmu.o
  .text.em4GrpaClkGet
-                0x0000000000000574       0x48 ./emlib/em_cmu.o
+                0x0000000000000474       0x48 ./emlib/em_cmu.o
  .text.wdog0ClkGet
-                0x00000000000005bc       0x54 ./emlib/em_cmu.o
+                0x00000000000004bc       0x54 ./emlib/em_cmu.o
  .text.wdog1ClkGet
-                0x0000000000000610       0x54 ./emlib/em_cmu.o
+                0x0000000000000510       0x54 ./emlib/em_cmu.o
  .text.rtccClkGet
-                0x0000000000000664       0x48 ./emlib/em_cmu.o
+                0x0000000000000564       0x48 ./emlib/em_cmu.o
  .text.dpllRefClkGet
-                0x00000000000006ac       0x48 ./emlib/em_cmu.o
+                0x00000000000005ac       0x48 ./emlib/em_cmu.o
  .text.flashWaitStateControl.isra.0
-                0x00000000000006f4       0x68 ./emlib/em_cmu.o
+                0x00000000000005f4       0x68 ./emlib/em_cmu.o
  .text.CMU_ClockFreqGet
-                0x000000000000075c      0x108 ./emlib/em_cmu.o
-                0x000000000000075c                CMU_ClockFreqGet
+                0x000000000000065c      0x108 ./emlib/em_cmu.o
+                0x000000000000065c                CMU_ClockFreqGet
  .text.pclkDivOptimize
-                0x0000000000000864       0x2c ./emlib/em_cmu.o
- .text.CMU_ClockSelectGet
-                0x0000000000000890      0x10c ./emlib/em_cmu.o
-                0x0000000000000890                CMU_ClockSelectGet
+                0x0000000000000764       0x2c ./emlib/em_cmu.o
  .text.CMU_ClockSelectSet
-                0x000000000000099c      0x214 ./emlib/em_cmu.o
-                0x000000000000099c                CMU_ClockSelectSet
- .text.CMU_HFRCODPLLBandSet
-                0x0000000000000bb0       0x98 ./emlib/em_cmu.o
-                0x0000000000000bb0                CMU_HFRCODPLLBandSet
+                0x0000000000000790      0x214 ./emlib/em_cmu.o
+                0x0000000000000790                CMU_ClockSelectSet
  .text.CORE_ExitCritical
-                0x0000000000000c48        0x8 ./emlib/em_core.o
-                0x0000000000000c48                CORE_ExitCritical
+                0x00000000000009a4        0x8 ./emlib/em_core.o
+                0x00000000000009a4                CORE_ExitCritical
  .text.CORE_EnterAtomic
-                0x0000000000000c50        0x8 ./emlib/em_core.o
-                0x0000000000000c50                CORE_EnterAtomic
+                0x00000000000009ac        0x8 ./emlib/em_core.o
+                0x00000000000009ac                CORE_EnterAtomic
  .text.CORE_ExitAtomic
-                0x0000000000000c58        0x4 ./emlib/em_core.o
-                0x0000000000000c58                CORE_ExitAtomic
+                0x00000000000009b4        0x4 ./emlib/em_core.o
+                0x00000000000009b4                CORE_ExitAtomic
  .text.GPIO_PinModeSet
-                0x0000000000000c5c       0x98 ./emlib/em_gpio.o
-                0x0000000000000c5c                GPIO_PinModeSet
+                0x00000000000009b8       0x98 ./emlib/em_gpio.o
+                0x00000000000009b8                GPIO_PinModeSet
  .text.IADC_initSingle
-                0x0000000000000cf4       0x9c ./emlib/em_iadc.o
-                0x0000000000000cf4                IADC_initSingle
+                0x0000000000000a50       0x9c ./emlib/em_iadc.o
+                0x0000000000000a50                IADC_initSingle
  .text.IADC_reset
-                0x0000000000000d90       0xbc ./emlib/em_iadc.o
-                0x0000000000000d90                IADC_reset
+                0x0000000000000aec       0xbc ./emlib/em_iadc.o
+                0x0000000000000aec                IADC_reset
  .text.IADC_calcSrcClkPrescale
-                0x0000000000000e4c       0x30 ./emlib/em_iadc.o
-                0x0000000000000e4c                IADC_calcSrcClkPrescale
+                0x0000000000000ba8       0x30 ./emlib/em_iadc.o
+                0x0000000000000ba8                IADC_calcSrcClkPrescale
  .text.IADC_calcAdcClkPrescale
-                0x0000000000000e7c       0x4c ./emlib/em_iadc.o
-                0x0000000000000e7c                IADC_calcAdcClkPrescale
+                0x0000000000000bd8       0x4c ./emlib/em_iadc.o
+                0x0000000000000bd8                IADC_calcAdcClkPrescale
  .text.IADC_init
-                0x0000000000000ec8      0x310 ./emlib/em_iadc.o
-                0x0000000000000ec8                IADC_init
+                0x0000000000000c24      0x310 ./emlib/em_iadc.o
+                0x0000000000000c24                IADC_init
  .text.LDMA_Init
-                0x00000000000011d8       0x64 ./emlib/em_ldma.o
-                0x00000000000011d8                LDMA_Init
+                0x0000000000000f34       0x64 ./emlib/em_ldma.o
+                0x0000000000000f34                LDMA_Init
  .text.LDMA_StartTransfer
-                0x000000000000123c       0xa0 ./emlib/em_ldma.o
-                0x000000000000123c                LDMA_StartTransfer
+                0x0000000000000f98       0xa0 ./emlib/em_ldma.o
+                0x0000000000000f98                LDMA_StartTransfer
  .text.SYSTEM_ChipRevisionGet
-                0x00000000000012dc       0x1c ./emlib/em_system.o
-                0x00000000000012dc                SYSTEM_ChipRevisionGet
+                0x0000000000001038       0x1c ./emlib/em_system.o
+                0x0000000000001038                SYSTEM_ChipRevisionGet
  .text.LDMA_IRQHandler
-                0x00000000000012f8       0x14 ./src/main.o
-                0x00000000000012f8                LDMA_IRQHandler
+                0x0000000000001054       0x10 ./src/main.o
+                0x0000000000001054                LDMA_IRQHandler
  .text.startup.main
-                0x000000000000130c       0xbc ./src/main.o
-                0x000000000000130c                main
+                0x0000000000001064       0xcc ./src/main.o
+                0x0000000000001064                main
  .text.initSingleIADC
-                0x00000000000013c8       0xe8 ./src/usage_iadc_ldma.o
-                0x00000000000013c8                initSingleIADC
+                0x0000000000001130       0xd4 ./src/usage_iadc_ldma.o
+                0x0000000000001130                initSingleIADC
  .text.initLdmaPingPong
-                0x00000000000014b0       0xbc ./src/usage_iadc_ldma.o
-                0x00000000000014b0                initLdmaPingPong
+                0x0000000000001204       0xbc ./src/usage_iadc_ldma.o
+                0x0000000000001204                initLdmaPingPong
  .text.LDMAPingPongHandler
-                0x000000000000156c       0x20 ./src/usage_iadc_ldma.o
-                0x000000000000156c                LDMAPingPongHandler
- .text.exit     0x000000000000158c       0x28 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/libc_nano.a(lib_a-exit.o)
-                0x000000000000158c                exit
+                0x00000000000012c0       0x20 ./src/usage_iadc_ldma.o
+                0x00000000000012c0                LDMAPingPongHandler
+ .text.exit     0x00000000000012e0       0x28 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/libc_nano.a(lib_a-exit.o)
+                0x00000000000012e0                exit
  .text.__libc_init_array
-                0x00000000000015b4       0x48 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/libc_nano.a(lib_a-init.o)
-                0x00000000000015b4                __libc_init_array
- .text.memset   0x00000000000015fc       0x10 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/libc_nano.a(lib_a-memset.o)
-                0x00000000000015fc                memset
- .text._exit    0x000000000000160c        0x4 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/libnosys.a(_exit.o)
-                0x000000000000160c                _exit
+                0x0000000000001308       0x48 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/libc_nano.a(lib_a-init.o)
+                0x0000000000001308                __libc_init_array
+ .text.memset   0x0000000000001350       0x10 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/libc_nano.a(lib_a-memset.o)
+                0x0000000000001350                memset
+ .text._exit    0x0000000000001360        0x4 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/libnosys.a(_exit.o)
+                0x0000000000001360                _exit
  *(.init)
- .init          0x0000000000001610        0x4 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v8-m.main/fpv5-sp/softfp/crti.o
-                0x0000000000001610                _init
- .init          0x0000000000001614        0x8 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v8-m.main/fpv5-sp/softfp/crtn.o
+ .init          0x0000000000001364        0x4 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v8-m.main/fpv5-sp/softfp/crti.o
+                0x0000000000001364                _init
+ .init          0x0000000000001368        0x8 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v8-m.main/fpv5-sp/softfp/crtn.o
  *(.fini)
- .fini          0x000000000000161c        0x4 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v8-m.main/fpv5-sp/softfp/crti.o
-                0x000000000000161c                _fini
- .fini          0x0000000000001620        0x8 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v8-m.main/fpv5-sp/softfp/crtn.o
+ .fini          0x0000000000001370        0x4 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v8-m.main/fpv5-sp/softfp/crti.o
+                0x0000000000001370                _fini
+ .fini          0x0000000000001374        0x8 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v8-m.main/fpv5-sp/softfp/crtn.o
  *crtbegin.o(.ctors)
  *crtbegin?.o(.ctors)
  *(EXCLUDE_FILE(*crtend.o *crtend?.o) .ctors)
@@ -1834,52 +1831,52 @@ LOAD /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/g
  *(.dtors)
  *(.rodata*)
  .rodata.CSWTCH.40
-                0x0000000000001628       0x30 ./emlib/em_cmu.o
+                0x000000000000137c       0x30 ./emlib/em_cmu.o
  .rodata.CSWTCH.41
-                0x0000000000001658       0x10 ./emlib/em_cmu.o
+                0x00000000000013ac       0x10 ./emlib/em_cmu.o
  .rodata.CSWTCH.42
-                0x0000000000001668        0xc ./emlib/em_cmu.o
+                0x00000000000013bc        0xc ./emlib/em_cmu.o
  .rodata.CSWTCH.44
-                0x0000000000001674       0x18 ./emlib/em_cmu.o
+                0x00000000000013c8       0x18 ./emlib/em_cmu.o
  .rodata.CSWTCH.46
-                0x000000000000168c       0x14 ./emlib/em_cmu.o
- .rodata        0x00000000000016a0       0x1c ./src/usage_iadc_ldma.o
+                0x00000000000013e0       0x14 ./emlib/em_cmu.o
+ .rodata        0x00000000000013f4       0x1c ./src/usage_iadc_ldma.o
  .rodata._global_impure_ptr
-                0x00000000000016bc        0x4 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/libc_nano.a(lib_a-impure.o)
-                0x00000000000016bc                _global_impure_ptr
+                0x0000000000001410        0x4 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/libc_nano.a(lib_a-impure.o)
+                0x0000000000001410                _global_impure_ptr
  *(.eh_frame*)
- .eh_frame      0x00000000000016c0        0x0 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v8-m.main/fpv5-sp/softfp/crtbegin.o
- .eh_frame      0x00000000000016c0        0x4 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v8-m.main/fpv5-sp/softfp/crtend.o
+ .eh_frame      0x0000000000001414        0x0 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v8-m.main/fpv5-sp/softfp/crtbegin.o
+ .eh_frame      0x0000000000001414        0x4 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v8-m.main/fpv5-sp/softfp/crtend.o
 
-.glue_7         0x00000000000016c4        0x0
- .glue_7        0x00000000000016c4        0x0 linker stubs
+.glue_7         0x0000000000001418        0x0
+ .glue_7        0x0000000000001418        0x0 linker stubs
 
-.glue_7t        0x00000000000016c4        0x0
- .glue_7t       0x00000000000016c4        0x0 linker stubs
+.glue_7t        0x0000000000001418        0x0
+ .glue_7t       0x0000000000001418        0x0 linker stubs
 
-.vfp11_veneer   0x00000000000016c4        0x0
- .vfp11_veneer  0x00000000000016c4        0x0 linker stubs
+.vfp11_veneer   0x0000000000001418        0x0
+ .vfp11_veneer  0x0000000000001418        0x0 linker stubs
 
-.v4_bx          0x00000000000016c4        0x0
- .v4_bx         0x00000000000016c4        0x0 linker stubs
+.v4_bx          0x0000000000001418        0x0
+ .v4_bx         0x0000000000001418        0x0 linker stubs
 
-.iplt           0x00000000000016c4        0x0
- .iplt          0x00000000000016c4        0x0 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v8-m.main/fpv5-sp/softfp/crtbegin.o
+.iplt           0x0000000000001418        0x0
+ .iplt          0x0000000000001418        0x0 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v8-m.main/fpv5-sp/softfp/crtbegin.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x00000000000016c4                __exidx_start = .
+                0x0000000000001418                __exidx_start = .
 
-.ARM.exidx      0x00000000000016c4        0x8
+.ARM.exidx      0x0000000000001418        0x8
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
- .ARM.exidx     0x00000000000016c4        0x8 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/crt0.o
-                0x00000000000016cc                __exidx_end = .
-                0x00000000000016cc                __etext = .
+ .ARM.exidx     0x0000000000001418        0x8 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/crt0.o
+                0x0000000000001420                __exidx_end = .
+                0x0000000000001420                __etext = .
 
-.rel.dyn        0x00000000000016cc        0x0
- .rel.iplt      0x00000000000016cc        0x0 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v8-m.main/fpv5-sp/softfp/crtbegin.o
+.rel.dyn        0x0000000000001420        0x0
+ .rel.iplt      0x0000000000001420        0x0 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v8-m.main/fpv5-sp/softfp/crtbegin.o
 
-.data           0x0000000020000000       0x78 load address 0x00000000000016cc
+.data           0x0000000020000000       0x78 load address 0x0000000000001420
                 0x0000000020000000                __data_start__ = .
  *(vtable)
  *(.data*)
@@ -1916,10 +1913,10 @@ LOAD /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/g
                 0x0000000020000078                . = ALIGN (0x4)
                 0x0000000020000078                __data_end__ = .
 
-.igot.plt       0x0000000020000078        0x0 load address 0x0000000000001744
+.igot.plt       0x0000000020000078        0x0 load address 0x0000000000001498
  .igot.plt      0x0000000020000078        0x0 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v8-m.main/fpv5-sp/softfp/crtbegin.o
 
-.bss            0x0000000020000078      0xfe0 load address 0x0000000000001744
+.bss            0x0000000020000078      0xfe0 load address 0x0000000000001498
                 0x0000000020000078                . = ALIGN (0x4)
                 0x0000000020000078                __bss_start__ = .
  *(.bss*)
@@ -2008,7 +2005,7 @@ OUTPUT(EFR32MG21_iadc_ping_pong_ldma.axf elf32-littlearm)
  .comment       0x000000000000007e       0x7f ./src/main.o
  .comment       0x000000000000007e       0x7f ./src/usage_iadc_ldma.o
 
-.debug_line     0x0000000000000000     0x69dd
+.debug_line     0x0000000000000000     0x69d5
  .debug_line    0x0000000000000000       0xe9 ./CMSIS/EFR32MG21/startup_efr32mg21.o
  .debug_line    0x00000000000000e9      0x9ae ./CMSIS/EFR32MG21/system_efr32mg21.o
  .debug_line    0x0000000000000a97     0x116e ./emlib/em_cmu.o
@@ -2017,10 +2014,10 @@ OUTPUT(EFR32MG21_iadc_ping_pong_ldma.axf elf32-littlearm)
  .debug_line    0x000000000000310e      0xe27 ./emlib/em_iadc.o
  .debug_line    0x0000000000003f35      0xa97 ./emlib/em_ldma.o
  .debug_line    0x00000000000049cc      0x912 ./emlib/em_system.o
- .debug_line    0x00000000000052de      0xb4d ./src/main.o
- .debug_line    0x0000000000005e2b      0xbb2 ./src/usage_iadc_ldma.o
+ .debug_line    0x00000000000052de      0xb45 ./src/main.o
+ .debug_line    0x0000000000005e23      0xbb2 ./src/usage_iadc_ldma.o
 
-.debug_info     0x0000000000000000    0x14ea0
+.debug_info     0x0000000000000000    0x14e7e
  .debug_info    0x0000000000000000       0x26 ./CMSIS/EFR32MG21/startup_efr32mg21.o
  .debug_info    0x0000000000000026     0x13ae ./CMSIS/EFR32MG21/system_efr32mg21.o
  .debug_info    0x00000000000013d4     0x53ca ./emlib/em_cmu.o
@@ -2029,10 +2026,10 @@ OUTPUT(EFR32MG21_iadc_ping_pong_ldma.axf elf32-littlearm)
  .debug_info    0x00000000000093af     0x235a ./emlib/em_iadc.o
  .debug_info    0x000000000000b709     0x19c4 ./emlib/em_ldma.o
  .debug_info    0x000000000000d0cd      0x816 ./emlib/em_system.o
- .debug_info    0x000000000000d8e3     0x3893 ./src/main.o
- .debug_info    0x0000000000011176     0x3d2a ./src/usage_iadc_ldma.o
+ .debug_info    0x000000000000d8e3     0x3940 ./src/main.o
+ .debug_info    0x0000000000011223     0x3c5b ./src/usage_iadc_ldma.o
 
-.debug_abbrev   0x0000000000000000     0x1d20
+.debug_abbrev   0x0000000000000000     0x1d3b
  .debug_abbrev  0x0000000000000000       0x14 ./CMSIS/EFR32MG21/startup_efr32mg21.o
  .debug_abbrev  0x0000000000000014      0x2bf ./CMSIS/EFR32MG21/system_efr32mg21.o
  .debug_abbrev  0x00000000000002d3      0x493 ./emlib/em_cmu.o
@@ -2041,8 +2038,8 @@ OUTPUT(EFR32MG21_iadc_ping_pong_ldma.axf elf32-littlearm)
  .debug_abbrev  0x0000000000000dd3      0x3ec ./emlib/em_iadc.o
  .debug_abbrev  0x00000000000011bf      0x36c ./emlib/em_ldma.o
  .debug_abbrev  0x000000000000152b      0x192 ./emlib/em_system.o
- .debug_abbrev  0x00000000000016bd      0x363 ./src/main.o
- .debug_abbrev  0x0000000000001a20      0x300 ./src/usage_iadc_ldma.o
+ .debug_abbrev  0x00000000000016bd      0x37e ./src/main.o
+ .debug_abbrev  0x0000000000001a3b      0x300 ./src/usage_iadc_ldma.o
 
 .debug_aranges  0x0000000000000000      0x418
  .debug_aranges
@@ -2083,11 +2080,11 @@ OUTPUT(EFR32MG21_iadc_ping_pong_ldma.axf elf32-littlearm)
  .debug_str     0x00000000001450f8      0x117 ./emlib/em_system.o
                                      0x139b55 (size before relaxing)
  .debug_str     0x000000000014520f     0x2ecd ./src/main.o
-                                     0x14371f (size before relaxing)
+                                     0x143846 (size before relaxing)
  .debug_str     0x00000000001480dc      0xad1 ./src/usage_iadc_ldma.o
-                                     0x145221 (size before relaxing)
+                                     0x1450a3 (size before relaxing)
 
-.debug_loc      0x0000000000000000     0x49da
+.debug_loc      0x0000000000000000     0x49ba
  .debug_loc     0x0000000000000000      0x120 ./CMSIS/EFR32MG21/system_efr32mg21.o
  .debug_loc     0x0000000000000120     0x2448 ./emlib/em_cmu.o
  .debug_loc     0x0000000000002568      0x6b2 ./emlib/em_core.o
@@ -2095,10 +2092,10 @@ OUTPUT(EFR32MG21_iadc_ping_pong_ldma.axf elf32-littlearm)
  .debug_loc     0x00000000000031c7     0x1079 ./emlib/em_iadc.o
  .debug_loc     0x0000000000004240      0x4ef ./emlib/em_ldma.o
  .debug_loc     0x000000000000472f       0x86 ./emlib/em_system.o
- .debug_loc     0x00000000000047b5      0x172 ./src/main.o
- .debug_loc     0x0000000000004927       0xb3 ./src/usage_iadc_ldma.o
+ .debug_loc     0x00000000000047b5      0x152 ./src/main.o
+ .debug_loc     0x0000000000004907       0xb3 ./src/usage_iadc_ldma.o
 
-.debug_ranges   0x0000000000000000      0x890
+.debug_ranges   0x0000000000000000      0x860
  .debug_ranges  0x0000000000000000       0x98 ./CMSIS/EFR32MG21/system_efr32mg21.o
  .debug_ranges  0x0000000000000098      0x190 ./emlib/em_cmu.o
  .debug_ranges  0x0000000000000228       0xf0 ./emlib/em_core.o
@@ -2106,8 +2103,8 @@ OUTPUT(EFR32MG21_iadc_ping_pong_ldma.axf elf32-littlearm)
  .debug_ranges  0x0000000000000440      0x2a8 ./emlib/em_iadc.o
  .debug_ranges  0x00000000000006e8       0xc8 ./emlib/em_ldma.o
  .debug_ranges  0x00000000000007b0       0x18 ./emlib/em_system.o
- .debug_ranges  0x00000000000007c8       0x78 ./src/main.o
- .debug_ranges  0x0000000000000840       0x50 ./src/usage_iadc_ldma.o
+ .debug_ranges  0x00000000000007c8       0x48 ./src/main.o
+ .debug_ranges  0x0000000000000810       0x50 ./src/usage_iadc_ldma.o
 
 .debug_macro    0x0000000000000000    0x30b28
  .debug_macro   0x0000000000000000      0x2ba ./CMSIS/EFR32MG21/system_efr32mg21.o
@@ -2219,7 +2216,7 @@ OUTPUT(EFR32MG21_iadc_ping_pong_ldma.axf elf32-littlearm)
  .debug_macro   0x00000000000306c8       0x34 ./src/main.o
  .debug_macro   0x00000000000306fc      0x42c ./src/usage_iadc_ldma.o
 
-.debug_frame    0x0000000000000000      0xb6c
+.debug_frame    0x0000000000000000      0xb64
  .debug_frame   0x0000000000000000      0x100 ./CMSIS/EFR32MG21/system_efr32mg21.o
  .debug_frame   0x0000000000000100      0x348 ./emlib/em_cmu.o
  .debug_frame   0x0000000000000448      0x224 ./emlib/em_core.o
@@ -2227,9 +2224,9 @@ OUTPUT(EFR32MG21_iadc_ping_pong_ldma.axf elf32-littlearm)
  .debug_frame   0x0000000000000704      0x200 ./emlib/em_iadc.o
  .debug_frame   0x0000000000000904       0xe0 ./emlib/em_ldma.o
  .debug_frame   0x00000000000009e4       0x30 ./emlib/em_system.o
- .debug_frame   0x0000000000000a14       0x50 ./src/main.o
- .debug_frame   0x0000000000000a64       0x74 ./src/usage_iadc_ldma.o
- .debug_frame   0x0000000000000ad8       0x28 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/libc_nano.a(lib_a-exit.o)
- .debug_frame   0x0000000000000b00       0x2c /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/libc_nano.a(lib_a-init.o)
- .debug_frame   0x0000000000000b2c       0x20 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/libc_nano.a(lib_a-memset.o)
- .debug_frame   0x0000000000000b4c       0x20 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/libnosys.a(_exit.o)
+ .debug_frame   0x0000000000000a14       0x48 ./src/main.o
+ .debug_frame   0x0000000000000a5c       0x74 ./src/usage_iadc_ldma.o
+ .debug_frame   0x0000000000000ad0       0x28 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/libc_nano.a(lib_a-exit.o)
+ .debug_frame   0x0000000000000af8       0x2c /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/libc_nano.a(lib_a-init.o)
+ .debug_frame   0x0000000000000b24       0x20 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/libc_nano.a(lib_a-memset.o)
+ .debug_frame   0x0000000000000b44       0x20 /Applications/Simplicity Studio.app/Contents/Eclipse/developer/toolchains/gnu_arm/7.2_2017q4/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v8-m.main/fpv5-sp/softfp/libnosys.a(_exit.o)

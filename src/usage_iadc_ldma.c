@@ -40,21 +40,23 @@ void initSingleIADC (void)
   IADC_InitSingle_t initSingle = IADC_INITSINGLE_DEFAULT;
   IADC_SingleInput_t initSingleInput = IADC_SINGLEINPUT_DEFAULT;
 
-
-
-  // Enable IADC0 clock branch
-  CMU_ClockEnable(cmuClock_IADC0, true);
-  // Reset IADC to reset configuration in case it has been modified
-  IADC_reset(IADC0);
-
+#if 0
   // Set HFRCODPLL band and the tuning value based on the value in the calibration table made during production.
   CMU_HFRCODPLLBandSet(HFRCODPLL_FREQ);
 
   // Select HFRCODPLL as the EM01GRPA clock
   CMU_ClockSelectSet(cmuClock_EM01GRPACLK, cmuSelect_HFRCODPLL);
+#endif
+
 
   // Select clock for IADC
   CMU_ClockSelectSet(cmuClock_IADCCLK, cmuSelect_EM01GRPACLK);
+  // Enable IADC0 clock branch
+  CMU_ClockEnable(cmuClock_IADC0, true);
+  // Reset IADC to reset configuration in case it has been modified
+  IADC_reset(IADC0);
+
+
 
   // Modify init structs and initialize
   init.warmup = iadcWarmupKeepWarm;
@@ -62,8 +64,8 @@ void initSingleIADC (void)
   // Set the HFSCLK prescale value here
    init.srcClkPrescale = IADC_calcSrcClkPrescale(IADC0, CLK_SRC_ADC_FREQ, 0);
 
-   // 25ns per cycle, 40000 cycles make 1ms timer event
-   init.timerCycles = 4000;//730;
+   // 25ns per cycle, 73 cycles make a 1.824us period (548Khz)for the ADC sample
+   init.timerCycles = 73;
 
    // Configuration 0 is used by both scan and single conversions by default
    // Use unbuffered AVDD as reference
@@ -73,7 +75,7 @@ void initSingleIADC (void)
    initAllConfigs.configs[0].adcClkPrescale = IADC_calcAdcClkPrescale(IADC0,CLK_ADC_FREQ,0,iadcCfgModeNormal,init.srcClkPrescale);
 
   initSingle.triggerSelect= iadcTriggerSelTimer;
-  initSingle.dataValidLevel = _IADC_SCANFIFOCFG_DVL_VALID1;
+  initSingle.dataValidLevel = _IADC_SINGLEFIFOCFG_DVL_VALID4;
 
   initSingle.fifoDmaWakeup = true;
 
